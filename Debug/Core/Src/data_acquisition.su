@@ -1,0 +1,2 @@
+../Core/Src/data_acquisition.cpp:22:6:void measure_CO()	24	static
+../Core/Src/data_acquisition.cpp:37:6:void measure_O2()	16	static
