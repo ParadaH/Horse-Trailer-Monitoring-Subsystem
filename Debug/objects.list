@@ -1,4 +1,5 @@
 "./Core/Lib/DFRobot_OxygenSensor/src/DFRobot_OxygenSensor.o"
+"./Core/Lib/Seeed_SCD30/SCD30.o"
 "./Core/Src/data_acquisition.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f7xx_hal_msp.o"

@@ -1,0 +1,13 @@
+../Core/Lib/Seeed_SCD30/SCD30.cpp:32:1:SCD30::SCD30(I2C_HandleTypeDef*)	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:36:6:bool SCD30::begin()	2
+../Core/Lib/Seeed_SCD30/SCD30.cpp:44:6:bool SCD30::isAvailable()	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:48:6:void SCD30::setAutoSelfCalibration(bool)	2
+../Core/Lib/Seeed_SCD30/SCD30.cpp:52:6:void SCD30::setMeasurementInterval(uint16_t)	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:56:6:void SCD30::startPeriodicMeasurement()	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:60:6:void SCD30::stopMeasurement()	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:64:6:void SCD30::setTemperatureOffset(uint16_t)	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:68:6:void SCD30::getCarbonDioxideConcentration(float*)	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:84:6:void SCD30::writeCommand(uint16_t)	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:89:6:void SCD30::writeCommandWithArguments(uint16_t, uint16_t)	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:100:10:uint16_t SCD30::readRegister(uint16_t)	1
+../Core/Lib/Seeed_SCD30/SCD30.cpp:107:9:uint8_t SCD30::calculateCrc(uint8_t*, uint8_t)	4

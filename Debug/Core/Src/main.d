@@ -35,7 +35,8 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd_ex.h \
  ../Core/Src/../Inc/data_acquisition.h \
  ../Core/Src/../Lib/DFRobot_OxygenSensor/src/DFRobot_OxygenSensor.h \
- ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h
+ ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h \
+ ../Core/Src/../Lib/Seeed_SCD30/SCD30.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:
 ../Core/Inc/stm32f7xx_hal_conf.h:
@@ -74,3 +75,4 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Core/Src/../Inc/data_acquisition.h:
 ../Core/Src/../Lib/DFRobot_OxygenSensor/src/DFRobot_OxygenSensor.h:
 ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h:
+../Core/Src/../Lib/Seeed_SCD30/SCD30.h:

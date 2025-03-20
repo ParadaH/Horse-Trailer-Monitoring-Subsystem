@@ -10,17 +10,24 @@
 #include "stdio.h"
 #include "string.h"
 #include "../Lib/DFRobot_OxygenSensor/src/DFRobot_OxygenSensor.h"
+#include "../Lib/Seeed_SCD30/SCD30.h"
+
+#define PMS5003_FRAME_SIZE 32  // Number of bytes in data packet from PMs sensor
 
 extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart5;
+extern UART_HandleTypeDef huart4;
 extern DFRobot_OxygenSensor oxygenSensor;
-extern float oxygen;
+extern SCD30 scd30;
+extern float CO2[3];
 char buffer[16];
+char rxBuffer[PMS5003_FRAME_SIZE]; // buffer for PM sensor data
 const float RL = 9.62;  // Measured value of the pull-up resistor (10 kΩ)
 const float R0 = 1.0; // Needs to be calibrated in fresh air
 
-void measure_CO(void){
+// UART5 - communication with USB-UART converter and PC app
 
+void measure_CO(void){
 	HAL_ADC_Start(&hadc1);
 	HAL_ADC_PollForConversion(&hadc1, 100);
 	float COsenosorValue = HAL_ADC_GetValue(&hadc1);
@@ -32,12 +39,61 @@ void measure_CO(void){
 
 	sprintf(buffer, "000%.4f\r\n", ppm);
 	HAL_UART_Transmit(&huart5, (uint8_t*) buffer, strlen(buffer), HAL_MAX_DELAY);
+	memset(buffer, 0, sizeof(buffer));
 }
 
 void measure_O2(void){
 	float oxygenConcentration = oxygenSensor.getOxygenData(10);
-	oxygen = oxygenSensor.getOxygenData(10);
 	sprintf(buffer, "001%.4f\r\n", oxygenConcentration);
 	HAL_UART_Transmit(&huart5, (uint8_t*) buffer, strlen(buffer), HAL_MAX_DELAY);
+	memset(buffer, 0, sizeof(buffer));
 }
 
+void measure_NOx(void){
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1, 100);
+	float NOxsensorValue = HAL_ADC_GetValue(&hadc1);
+	HAL_ADC_Stop(&hadc1);
+
+	float sensedVoltage = (NOxsensorValue / 1023.0) * 5.0;
+	float output = pow(sensedVoltage, 3)*(-0.00130116)+pow(sensedVoltage, 2)*(0.03712166)
+			+sensedVoltage*(-0.42411996)+(-0.00329962);
+	sprintf(buffer, "002%.4f\r\n", output);
+	HAL_UART_Transmit(&huart5, (uint8_t*) buffer, strlen(buffer), HAL_MAX_DELAY);
+	memset(buffer, 0, sizeof(buffer));
+}
+
+void measure_CO2(void){
+	float sensorData[3];
+	if (scd30.isAvailable()) {
+		scd30.getCarbonDioxideConcentration(sensorData);
+	}
+	CO2[0] = sensorData[0];
+	CO2[1] = sensorData[1];
+	CO2[2] = sensorData[2];
+	sprintf(buffer, "003%.4f\r\n", sensorData[0]);
+	HAL_UART_Transmit(&huart5, (uint8_t*) buffer, strlen(buffer), HAL_MAX_DELAY);
+	memset(buffer, 0, sizeof(buffer));
+}
+
+void measure_PMs(void){
+	float pm1_0, pm2_5, pm10;
+	if(HAL_UART_Receive(&huart4, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY) == HAL_OK){
+		if (rxBuffer[0] == 0x42 && rxBuffer[1] == 0x4D){
+			pm1_0 = (rxBuffer[10] << 8) | rxBuffer[11];
+			pm2_5 = (rxBuffer[12] << 8) | rxBuffer[13];
+			pm10  = (rxBuffer[14] << 8) | rxBuffer[15];
+		}
+	}
+	sprintf(rxBuffer, "004%.4f\r\n", pm1_0);
+	HAL_UART_Transmit(&huart5, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY);
+	memset(rxBuffer, 0, sizeof(rxBuffer));
+
+	sprintf(rxBuffer, "005%.4f\r\n", pm2_5);
+	HAL_UART_Transmit(&huart5, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY);
+	memset(rxBuffer, 0, sizeof(rxBuffer));
+
+	sprintf(rxBuffer, "006%.4f\r\n", pm10);
+	HAL_UART_Transmit(&huart5, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY);
+	memset(rxBuffer, 0, sizeof(rxBuffer));
+}

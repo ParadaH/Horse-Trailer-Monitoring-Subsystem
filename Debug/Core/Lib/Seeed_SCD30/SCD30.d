@@ -1,9 +1,5 @@
-Core/Src/data_acquisition.o: ../Core/Src/data_acquisition.cpp \
- ../Core/Inc/main.h ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h \
- ../Core/Inc/stm32f7xx_hal_conf.h \
- ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h \
- ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h \
- ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f7xx.h \
+Core/Lib/Seeed_SCD30/SCD30.o: ../Core/Lib/Seeed_SCD30/SCD30.cpp \
+ ../Core/Lib/Seeed_SCD30/SCD30.h \
  ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h \
  ../Drivers/CMSIS/Include/core_cm7.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \
@@ -11,6 +7,12 @@ Core/Src/data_acquisition.o: ../Core/Src/data_acquisition.cpp \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Include/mpu_armv7.h \
  ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/system_stm32f7xx.h \
+ ../Core/Inc/main.h ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h \
+ ../Core/Inc/stm32f7xx_hal_conf.h \
+ ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h \
+ ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h \
+ ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f7xx.h \
+ ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc_ex.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_exti.h \
@@ -32,16 +34,8 @@ Core/Src/data_acquisition.o: ../Core/Src/data_acquisition.cpp \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_usb.h \
- ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd_ex.h \
- ../Core/Src/../Lib/DFRobot_OxygenSensor/src/DFRobot_OxygenSensor.h \
- ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h \
- ../Core/Src/../Lib/Seeed_SCD30/SCD30.h
-../Core/Inc/main.h:
-../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:
-../Core/Inc/stm32f7xx_hal_conf.h:
-../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h:
-../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h:
-../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f7xx.h:
+ ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd_ex.h
+../Core/Lib/Seeed_SCD30/SCD30.h:
 ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h:
 ../Drivers/CMSIS/Include/core_cm7.h:
 ../Drivers/CMSIS/Include/cmsis_version.h:
@@ -49,6 +43,13 @@ Core/Src/data_acquisition.o: ../Core/Src/data_acquisition.cpp \
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../Drivers/CMSIS/Include/mpu_armv7.h:
 ../Drivers/CMSIS/Device/ST/STM32F7xx/Include/system_stm32f7xx.h:
+../Core/Inc/main.h:
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:
+../Core/Inc/stm32f7xx_hal_conf.h:
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h:
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_def.h:
+../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f7xx.h:
+../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc_ex.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_exti.h:
@@ -71,6 +72,3 @@ Core/Src/data_acquisition.o: ../Core/Src/data_acquisition.cpp \
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_usb.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd_ex.h:
-../Core/Src/../Lib/DFRobot_OxygenSensor/src/DFRobot_OxygenSensor.h:
-../Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f767xx.h:
-../Core/Src/../Lib/Seeed_SCD30/SCD30.h:

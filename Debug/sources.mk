@@ -39,6 +39,7 @@ CPP_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core/Lib/DFRobot_OxygenSensor/src \
+Core/Lib/Seeed_SCD30 \
 Core/Src \
 Core/Startup \
 Drivers/STM32F7xx_HAL_Driver/Src \

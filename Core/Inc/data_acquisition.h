@@ -11,5 +11,8 @@
 
 void measure_CO(void);
 void measure_O2(void);
+void measure_NOx(void);
+void measure_CO2(void);
+void measure_PMs(void);
 
 #endif /* SRC_DATA_ACQUISITION_H_ */

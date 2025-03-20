@@ -1,14 +1,15 @@
-../Core/Src/main.cpp:107:5:int main()	1
-../Core/Src/main.cpp:167:6:void SystemClock_Config()	4
-../Core/Src/main.cpp:225:13:void MX_ADC1_Init()	3
-../Core/Src/main.cpp:277:13:void MX_ETH_Init()	2
-../Core/Src/main.cpp:326:13:void MX_I2C1_Init()	4
-../Core/Src/main.cpp:374:13:void MX_UART5_Init()	2
-../Core/Src/main.cpp:409:13:void MX_UART7_Init()	2
-../Core/Src/main.cpp:444:13:void MX_USART3_UART_Init()	2
-../Core/Src/main.cpp:479:13:void MX_USB_OTG_FS_PCD_Init()	2
-../Core/Src/main.cpp:514:13:void MX_GPIO_Init()	1
-../Core/Src/main.cpp:573:6:void Error_Handler()	1
-../Core/Src/main.cpp:582:1:void __static_initialization_and_destruction_0(int, int)	5
-../Core/Src/main.cpp:582:1:cpp)	1
-../Core/Src/main.cpp:582:1:cpp)	1
+../Core/Src/main.cpp:108:5:int main()	2
+../Core/Src/main.cpp:174:6:void SystemClock_Config()	4
+../Core/Src/main.cpp:232:13:void MX_ADC1_Init()	4
+../Core/Src/main.cpp:293:13:void MX_ETH_Init()	2
+../Core/Src/main.cpp:342:13:void MX_I2C1_Init()	4
+../Core/Src/main.cpp:390:13:void MX_UART4_Init()	2
+../Core/Src/main.cpp:425:13:void MX_UART5_Init()	2
+../Core/Src/main.cpp:460:13:void MX_UART7_Init()	2
+../Core/Src/main.cpp:495:13:void MX_USART3_UART_Init()	2
+../Core/Src/main.cpp:530:13:void MX_USB_OTG_FS_PCD_Init()	2
+../Core/Src/main.cpp:565:13:void MX_GPIO_Init()	1
+../Core/Src/main.cpp:624:6:void Error_Handler()	1
+../Core/Src/main.cpp:633:1:void __static_initialization_and_destruction_0(int, int)	5
+../Core/Src/main.cpp:633:1:cpp)	1
+../Core/Src/main.cpp:633:1:cpp)	1
