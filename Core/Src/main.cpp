@@ -72,18 +72,25 @@ UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart7;
 UART_HandleTypeDef huart3;
+DMA_HandleTypeDef hdma_uart4_rx;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
+#define PMS_FRAME_LENGTH 32
+
 DFRobot_OxygenSensor oxygenSensor(&hi2c1);
 SCD30 scd30(&hi2c1);
 float CO2[3];
+float pm[3];
+uint8_t rxBuffer[PMS_FRAME_LENGTH];
+int i = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_UART5_Init(void);
@@ -130,6 +137,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_UART5_Init();
@@ -144,6 +152,8 @@ int main(void)
         scd30.setMeasurementInterval(2);
         scd30.startPeriodicMeasurement();
     }
+
+    HAL_UART_Receive_IT(&huart4, rxBuffer, PMS_FRAME_LENGTH);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -153,17 +163,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  measure_CO();
-	  measure_O2();
-	  measure_NOx();
-//	  measure_CO2();
-//	  measure_PMs();
-
-	  HAL_Delay(2000);
-
+	  i++;
+	  HAL_Delay(1000);
   }
-
-
   /* USER CODE END 3 */
 }
 
@@ -558,6 +560,22 @@ static void MX_USB_OTG_FS_PCD_Init(void)
 }
 
 /**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Stream2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -614,7 +632,12 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	if(huart->Instance == UART4){
+		measure_PMs(rxBuffer);
+		HAL_UART_Receive_IT(&huart4, rxBuffer, PMS_FRAME_LENGTH);
+	}
+}
 /* USER CODE END 4 */
 
 /**

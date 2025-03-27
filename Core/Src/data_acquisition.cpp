@@ -21,10 +21,10 @@ extern DFRobot_OxygenSensor oxygenSensor;
 extern SCD30 scd30;
 extern float CO2[3];
 char buffer[16];
-char rxBuffer[PMS5003_FRAME_SIZE]; // buffer for PM sensor data
+char dataBuffer[32];
 const float RL = 9.62;  // Measured value of the pull-up resistor (10 kΩ)
 const float R0 = 1.0; // Needs to be calibrated in fresh air
-
+extern float pm[3]; //pm1_0, pm2_5, pm10;
 // UART5 - communication with USB-UART converter and PC app
 
 void measure_CO(void){
@@ -76,24 +76,27 @@ void measure_CO2(void){
 	memset(buffer, 0, sizeof(buffer));
 }
 
-void measure_PMs(void){
-	float pm1_0, pm2_5, pm10;
-	if(HAL_UART_Receive(&huart4, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY) == HAL_OK){
-		if (rxBuffer[0] == 0x42 && rxBuffer[1] == 0x4D){
-			pm1_0 = (rxBuffer[10] << 8) | rxBuffer[11];
-			pm2_5 = (rxBuffer[12] << 8) | rxBuffer[13];
-			pm10  = (rxBuffer[14] << 8) | rxBuffer[15];
-		}
+void measure_PMs(uint8_t *data){
+	char txBuffer[32];
+
+	if (data[0] == 0x42 && data[1] == 0x4D){
+	  	pm[0] = (data[10] << 8) | data[11];
+		pm[1] = (data[12] << 8) | data[13];
+		pm[2] = (data[14] << 8) | data[15];
 	}
-	sprintf(rxBuffer, "004%.4f\r\n", pm1_0);
-	HAL_UART_Transmit(&huart5, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY);
-	memset(rxBuffer, 0, sizeof(rxBuffer));
 
-	sprintf(rxBuffer, "005%.4f\r\n", pm2_5);
-	HAL_UART_Transmit(&huart5, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY);
-	memset(rxBuffer, 0, sizeof(rxBuffer));
+	sprintf(txBuffer, "004%.4f\r\n", pm[0]);
+	HAL_UART_Transmit(&huart5, (uint8_t*) txBuffer, strlen(txBuffer), HAL_MAX_DELAY);
+	memset(txBuffer, 0, sizeof(txBuffer));
 
-	sprintf(rxBuffer, "006%.4f\r\n", pm10);
-	HAL_UART_Transmit(&huart5, (uint8_t*) rxBuffer, strlen(rxBuffer), HAL_MAX_DELAY);
-	memset(rxBuffer, 0, sizeof(rxBuffer));
+	sprintf(txBuffer, "005%.4f\r\n", pm[1]);
+	HAL_UART_Transmit(&huart5, (uint8_t*) txBuffer, strlen(txBuffer), HAL_MAX_DELAY);
+	memset(txBuffer, 0, sizeof(txBuffer));
+
+	sprintf(txBuffer, "006%.4f\r\n", pm[2]);
+	HAL_UART_Transmit(&huart5, (uint8_t*) txBuffer, strlen(txBuffer), HAL_MAX_DELAY);
+	memset(txBuffer, 0, sizeof(txBuffer));
 }
+
+
+
