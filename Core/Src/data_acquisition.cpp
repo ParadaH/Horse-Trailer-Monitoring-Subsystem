@@ -9,6 +9,7 @@
 #include "math.h"
 #include "stdio.h"
 #include "string.h"
+#include "data_acquisition.h"
 #include "../Lib/DFRobot_OxygenSensor/src/DFRobot_OxygenSensor.h"
 #include "../Lib/Seeed_SCD30/SCD30.h"
 
@@ -25,7 +26,22 @@ char dataBuffer[32];
 const float RL = 9.62;  // Measured value of the pull-up resistor (10 kΩ)
 const float R0 = 1.0; // Needs to be calibrated in fresh air
 extern float pm[3]; //pm1_0, pm2_5, pm10;
-// UART5 - communication with USB-UART converter and PC app
+
+typedef struct {
+    float CO;
+    float O2;
+    float NOx;
+    float CO2;
+    float PMs[3];
+} Sensors_t;
+
+extern Sensors_t sensors;
+
+extern CAN_HandleTypeDef hcan1;
+extern CAN_TxHeaderTypeDef TxHeader;
+extern uint8_t TxData[8];
+extern uint32_t mailbox;
+// UART5 - communication with USB-UART converter and PC
 
 void measure_CO(void){
 	HAL_ADC_Start(&hadc1);
@@ -43,8 +59,20 @@ void measure_CO(void){
 }
 
 void measure_O2(void){
+	TxHeader.StdId = 0x01;
 	float oxygenConcentration = oxygenSensor.getOxygenData(10);
 	sprintf(buffer, "001%.4f\r\n", oxygenConcentration);
+
+	uint16_t O2 = oxygenConcentration * 100;
+	TxData[0] = (uint16_t) 	O2 & 0xFF;
+	TxData[1] = (uint16_t) (O2 >> 8) & 0xFF;
+
+	sensors.O2 = oxygenConcentration;
+
+	if(HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &mailbox) != HAL_OK){
+	  Error_Handler();
+	}
+
 	HAL_UART_Transmit(&huart5, (uint8_t*) buffer, strlen(buffer), HAL_MAX_DELAY);
 	memset(buffer, 0, sizeof(buffer));
 }
@@ -58,6 +86,9 @@ void measure_NOx(void){
 	float sensedVoltage = (NOxsensorValue / 1023.0) * 5.0;
 	float output = pow(sensedVoltage, 3)*(-0.00130116)+pow(sensedVoltage, 2)*(0.03712166)
 			+sensedVoltage*(-0.42411996)+(-0.00329962);
+
+	sensors.NOx = output;
+
 	sprintf(buffer, "002%.4f\r\n", output);
 	HAL_UART_Transmit(&huart5, (uint8_t*) buffer, strlen(buffer), HAL_MAX_DELAY);
 	memset(buffer, 0, sizeof(buffer));
