@@ -64,8 +64,8 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 DFRobot_OxygenSensor oxygenSensor(&hi2c1);
 SCD30 scd30(&hi2c1);
-float CO2[3];
-float pm[3];
+uint16_t CO2[3];
+uint16_t PMs[3];
 uint8_t rxBuffer[PMS_FRAME_LENGTH];
 int i = 0;
 
@@ -167,7 +167,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  i++;
-	 //	  measure_CO();
+	  measure_CO();
 	  measure_O2();
 	  HAL_Delay(1000);
   }
